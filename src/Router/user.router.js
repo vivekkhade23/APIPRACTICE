@@ -3,35 +3,30 @@ const UserModel=require("../Modal/user.modal")
 const userRouter = express.Router();
 const bcrypt=require("bcrypt")
 
-userRouter.post("/signup",async(req,res)=>{
-    const {email,password,age}=req.body;
-    try{
-        const user= await UserModel.findOne({email,password})
-  if(user){
-   return res.status(404).send("user already exist")
-  }
-  let newUser= new UserModel({email,password,age});
-newUser=await newUser.save();
-
-return res.status(200).send("user created successfully",user)
+app.post("/signup",async(req,res)=>{
+    try{ 
+    const {name,email,password}=req.body
+    let user = new UserModel({name,email, password });
+    user = await user.save();
+    res.send(user)
     }
     catch(e){
-        return res.status(404).send("user cant be created")
+        
+        res.status(401).send({ message: "Signup Failed",error:e })
     }
 })
 
-userRouter.post("/login",async(req,res)=>{
-    try{ 
-        const { email, password } = req.body;
-        console.log("user",email, password)
-    const u = await UserModel.findOne({ email, password });
-    console.log("user",u)
-    res.send(u)
-    }catch(e){
-        res.status(401).send({ message: "Login Failed",error:e })
-    }
-}
-   )
+
+app.post("/login",async (req,res)=>{
+    try{ const { email, password } = req.body;
+     const u = await UserModel.findOne({ email, password });
+     res.send(u)
+     }catch(e){
+         res.status(401).send({ message: "Login Failed",error:e })
+     }
+ })
+ 
+   
 
 
 
