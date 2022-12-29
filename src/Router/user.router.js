@@ -3,7 +3,7 @@ const UserModel=require("../Modal/user.modal")
 const userRouter = express.Router();
 const bcrypt=require("bcrypt")
 
-app.post("/signup",async(req,res)=>{
+userRouter.post("/signup",async(req,res)=>{
     try{ 
     const {name,email,password}=req.body
     let user = new UserModel({name,email, password });
@@ -17,7 +17,7 @@ app.post("/signup",async(req,res)=>{
 })
 
 
-app.post("/login",async (req,res)=>{
+userRouter.post("/login",async (req,res)=>{
     try{ const { email, password } = req.body;
      const u = await UserModel.findOne({ email, password });
      res.send(u)
