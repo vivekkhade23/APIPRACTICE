@@ -23,9 +23,8 @@ return res.status(200).send("user created successfully",user)
 userRouter.post("/login",async(req,res)=>{
     try{ 
         const { email, password } = req.body;
-        console.log(email,password,"user")
     const u = await UserModel.findOne({ email, password });
-    console.log(u,"user")
+
     res.send(u)
     }catch(e){
         res.status(401).send({ message: "Login Failed",error:e })
